@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    #time {
+        width: 1000px;
+    }
+
+    #volume{
+        transform: rotate(270deg);
+        margin-bottom: 80px;
+    }
+</style>
+
+<body>
+    <video class="video" src="Fromis_9 - DKDK.mp4" width="1000"></video>
+    <input type="range" name="volume" id="volume" min="9" max="99" value="100">
+    <input type="range" name="time" id="time" min="0" value="0">
+    <button class="pause">Pause</button>
+    <button class="play">Play</button>
+    <script>
+        let volume = 100
+        let video = document.querySelector('.video')
+        let volumeSlider = document.querySelector('#volume')
+        let timeSlider = document.querySelector('#time')
+        let playBtn = document.querySelector('.play')
+        let pauseBtn = document.querySelector('.pause')
+
+        playBtn.onclick = () => {
+            video.play()
+        }
+
+        pauseBtn.onclick = () => {
+            video.pause()
+        }
+
+        video.onloadedmetadata = () => {
+            timeSlider.setAttribute("max", video.duration)
+            console.log(timeSlider.getAttribute("max"))
+        }
+
+        video.addEventListener('timeupdate', (e) => {
+            timeSlider.value = video.currentTime
+            console.log(timeSlider.value)
+        })
+
+        video.addEventListener('click', () => {
+            if (video.paused) {
+                video.play()
+                console.log('play')
+            }
+            else {
+                console.log('paused')
+                video.pause()
+            }
+        })
+
+        volumeSlider.addEventListener("mousemove", () => {
+            video.volume = parseFloat(0 + '.' + volumeSlider.value)
+            if (volumeSlider.value < 10) {
+                video.volume = 0
+            }
+        })
+
+        timeSlider.addEventListener("click", (e) => {
+                video.currentTime = timeSlider.value
+                video.play() 
+        })
+    </script>
+</body>
+
+</html>
